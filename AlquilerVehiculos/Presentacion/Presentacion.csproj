@@ -6,4 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AlquilerVehiculos_BLL\AlquilerVehiculos_BLL.csproj" />
+    <ProjectReference Include="..\AlquilerVehiculos_DAL\AlquilerVehiculos_DAL.csproj" />
+  </ItemGroup>
+
 </Project>

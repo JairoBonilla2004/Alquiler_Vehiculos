@@ -1,0 +1,348 @@
+﻿:root {
+    --primary-color: #1e88e5;
+    --primary-dark: #1565c0;
+    --primary-light: #64b5f6;
+    --secondary-color: #ff6e40;
+    --secondary-dark: #ff3d00;
+    --text-color: #333333;
+    --text-muted: #757575;
+    --light-bg: #f5f7fa;
+    --white: #ffffff;
+    --border-color: #e0e0e0;
+    --success-color: #4caf50;
+    --danger-color: #f44336;
+    --border-radius: 8px;
+    --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    --transition: all 0.3s ease;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+}
+
+/* Contenedor principal */
+.main-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 4rem);
+}
+
+.auth-container {
+    width: 70%;
+    max-width: 1200px;
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+}
+
+/* Lado izquierdo con imagen */
+.auth-image {
+    background-image: url("https://images.unsplash.com/photo-1550355291-bbee04a92027?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80");
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    min-height: 500px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(30, 136, 229, 0.8) 0%, rgba(21, 101, 192, 0.9) 100%);
+}
+
+.brand-info {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: var(--white);
+    padding: 2rem;
+}
+
+.brand-name {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.brand-slogan {
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+
+/* Lado derecho con formulario */
+.auth-form-container {
+    padding: 2.5rem;
+    height: 100%;
+}
+
+/* Estilos para móviles */
+.brand-name-mobile {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.brand-slogan-mobile {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+/* Pestañas de navegación */
+.nav-pills {
+    background-color: var(--light-bg);
+    border-radius: var(--border-radius);
+    padding: 0.3rem;
+}
+
+    .nav-pills .nav-link {
+        color: var(--text-muted);
+        font-weight: 500;
+        border-radius: var(--border-radius);
+        padding: 0.75rem 1.5rem;
+        transition: var(--transition);
+    }
+
+        .nav-pills .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-pills .nav-link.active {
+            color: var(--white);
+            background-color: var(--primary-color);
+        }
+
+/* Títulos de formularios */
+.form-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--primary-dark);
+}
+
+.form-subtitle {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+/* Campos de formulario */
+.form-label {
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.input-group-text {
+    background-color: var(--light-bg);
+    border-color: var(--border-color);
+    color: var(--primary-color);
+}
+
+.form-control {
+    border-color: var(--border-color);
+    padding: 0.75rem 1rem;
+    transition: var(--transition);
+}
+
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(30, 136, 229, 0.25);
+    }
+
+/* Botón de toggle para contraseña */
+.password-toggle {
+    border-color: var(--border-color);
+    color: var(--text-muted);
+}
+
+    .password-toggle:hover {
+        color: var(--primary-color);
+        background-color: var(--light-bg);
+    }
+
+/* Enlace de contraseña olvidada */
+.forgot-password {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+    .forgot-password:hover {
+        color: var(--primary-dark);
+        text-decoration: underline;
+    }
+
+/* Botón principal */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+    .btn-primary:hover,
+    .btn-primary:focus {
+        background-color: var(--primary-dark);
+        border-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+/* Separador con texto */
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.5rem 0;
+}
+
+    .separator::before,
+    .separator::after {
+        content: "";
+        flex: 1;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .separator span {
+        padding: 0 1rem;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+/* Botones de redes sociales */
+.social-login {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+    .social-btn:hover {
+        background-color: var(--light-bg);
+        transform: translateY(-2px);
+    }
+
+    .social-btn i {
+        font-size: 1.2rem;
+    }
+
+/* Estilos para términos y condiciones */
+.form-check-label a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+    .form-check-label a:hover {
+        text-decoration: underline;
+    }
+
+/* Estilos para validación */
+.form-control.is-invalid {
+    border-color: var(--danger-color);
+    background-image: none;
+}
+
+.form-control.is-valid {
+    border-color: var(--success-color);
+    background-image: none;
+}
+
+/* Estilos responsivos */
+@media (max-width: 991.98px) {
+    .auth-container {
+        width: 85%;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .auth-container {
+        width: 95%;
+        max-width: 500px;
+    }
+
+    .auth-form-container {
+        padding: 1.5rem;
+    }
+
+    .form-title {
+        font-size: 1.5rem;
+    }
+
+    .form-subtitle {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .auth-container {
+        width: 100%;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    body {
+        padding: 0;
+    }
+
+    .main-container {
+        min-height: 100vh;
+    }
+
+    .social-btn {
+        width: 45px;
+        height: 45px;
+    }
+}
+
+#content_iniciar_sesion {
+    background-color: rgb(220, 58, 58,.8);
+    text-align: center;
+    padding: .5rem .2rem;
+    color: white;
+    text-transform: uppercase;
+    border-radius: 10px;
+    opacity: 0;
+    visibility: hidden;
+    margin-bottom: .5rem;
+    transition: opacity 3000ms ease-in-out;
+}
+
+
+
+
+#content_iniciar_sesion.Active {
+    opacity: 1;
+    visibility: visible;
+}
