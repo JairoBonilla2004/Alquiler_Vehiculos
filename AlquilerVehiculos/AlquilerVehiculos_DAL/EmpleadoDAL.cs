@@ -111,7 +111,8 @@ namespace AlquilerVehiculos_DAL
                                     Clave = reader["Clave"].ToString(),
                                     Restablecer_clave = Convert.ToBoolean(reader["Restablecer_clave"]),
                                     Confirmado = Convert.ToBoolean(reader["Confirmado"]),
-                                    Token = reader["token"].ToString()
+                                    Token = reader["token"].ToString(),
+                                    Email = reader["Email"].ToString()
                                 };
                             }
                         }

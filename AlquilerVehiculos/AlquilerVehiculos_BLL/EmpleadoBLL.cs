@@ -1,4 +1,5 @@
-﻿using AlquilerVehiculos_DAL;
+﻿using System.IO;
+using AlquilerVehiculos_DAL;
 using AlquilerVehiculos_Entity;
 using AlquilerVehiculos_Services;
 using Azure.Core;
@@ -12,7 +13,8 @@ namespace AlquilerVehiculos_BLL
         public EmpleadoDAL _empleadoDAL;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EmpleadoBLL(EmpleadoDAL empleadoDAL, IHttpContextAccessor httpContextAccessor) {
+        public EmpleadoBLL(EmpleadoDAL empleadoDAL, IHttpContextAccessor httpContextAccessor)
+        {
             _empleadoDAL = empleadoDAL;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -29,7 +31,8 @@ namespace AlquilerVehiculos_BLL
 
 
                 }
-                else if (empleado.Restablecer_clave) {
+                else if (empleado.Restablecer_clave)
+                {
                     //mensaje de restablecimiento de clave
                     return new { success = false, message = $"Se ha solicitado restableces su cuenta. Porfavor, revise su bandeja del correo {email}" };
 
@@ -41,6 +44,23 @@ namespace AlquilerVehiculos_BLL
                 return new { success = false, message = "No se han encontrado credenciales" };
             }
             return new { success = true, redirectUrl = "Home/Index", empleado };
+        }
+
+        public bool enviarCorreo(string path, string redirect, Empleado _empleado, string _asunto)
+        {
+            string contenido = File.ReadAllText(path);
+            string dominio = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";//dominio actual
+            string linkConfirmacion = $"{dominio}/{redirect}?token={_empleado.Token}";
+            contenido = contenido.Replace("{0}", _empleado.Nombre).Replace("{1}", linkConfirmacion);//ES ELLINK QUE YO CAMBIO QUE VA A TENER ESE HTML PARA TRAERME DEL CORREO A MI PÁWINA
+            Correo correo = new Correo
+            {
+                Para = _empleado.Email,
+                Asunto = _asunto,
+                Contenido = contenido
+            };
+
+
+            return EmailServices.Enviar(correo);
         }
 
         public Object RegistrarEmpleado(Empleado _empleado)
@@ -61,23 +81,7 @@ namespace AlquilerVehiculos_BLL
 
                 if (File.Exists(path))
                 {
-              
-                    string contenido = File.ReadAllText(path);
-                    string dominio = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";//dominio actual
-                    string redirect = "Acceso/Confirmar";
-                    string linkConfirmacion = $"{dominio}/{redirect}?token={_empleado.Token}";
-                    contenido = contenido.Replace("{0}", _empleado.Nombre).Replace("{1}", linkConfirmacion);//ES ELLINK QUE YO CAMBIO QUE VA A TENER ESE HTML PARA TRAERME DEL CORREO A MI PÁWINA
-
-             
-                    Correo correo = new Correo
-                    {
-                        Para = _empleado.Email,
-                        Asunto = "Confirma tu correo electrónico",
-                        Contenido = contenido
-                    };
-
-                
-                    bool enviado = EmailServices.Enviar(correo);
+                    bool enviado = enviarCorreo(path, "Acceso/Confirmar", _empleado, "Confirma tu correo electrónico");
                     if (!enviado)
                     {
                         return new { success = false, message = "No se pudo enviar el correo de confirmación" };
@@ -99,29 +103,61 @@ namespace AlquilerVehiculos_BLL
 
         public object ConfirmarCuenta(string token)
         {
-            bool response =  _empleadoDAL.Confirmar(token);
+            bool response = _empleadoDAL.Confirmar(token);
             return new { success = response, message = "Su cuenta ya fue confirmada" };
         }
 
         public object RecuperarClave(string correo)
         {
             Empleado empleado = _empleadoDAL.GetBy("Email", correo);
-            if (empleado != null) 
+            Console.WriteLine(correo, empleado);
+            if (empleado != null)
             {
-                bool response = _empleadoDAL.RestablecerActualizar(1, empleado.Clave, empleado.Token);
-                if (response) {
-                    return new { success = response, message = "Contraseña " };
+                bool response = _empleadoDAL.RestablecerActualizar(1, empleado.Clave, empleado.Token);//solo necesito que me cambie a uno
+                if (response)
+                {
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "templatesHTML", "Restablecer.html");
+                    if (File.Exists(path))
+                    {
+                        bool enviar_correo = enviarCorreo(path, "Acceso/RestablecerForm", empleado, "Restablecer Clave");
+                        if (enviar_correo)
+                        {
+                            return new { success = true, title = "¡Enlace enviado!", message = $"Hemos enviado un enlace de recuperación a {correo}. Por favor revise su bandeja de entrada." };
+                        }
+                        else
+                        {
+                            return new { success = false, message = "No se puedo enviar el correo electrónico" };
+                        }
+                    }
+                    else
+                    {
+                        return new { success = false, message = "No se encontró la plantilla de correo" };
+                    }
+
+
                 }
                 else
                 {
-                    return new { success = response, menssage = "" };
+                    return new { success = response, menssage = "No se pudo restablecer la contraseña" };
                 }
             }
             else
             {
-                return new { success = false, message = "No se encontraron coincidencias con el correo electrónico" };
+                return new { success = false, message = "No se encontraron coincidencias con el correo electrónico", title= "Error al enviar el correo" };
             }
 
+        }
+
+        public object ActualizarClave(string token, string clave)
+        {
+            bool response = _empleadoDAL.RestablecerActualizar(0, UtilsServices.ConvertirASHA256(clave), token);
+            if (response) {
+                return new { success = true, title = "¡Contraseña actualizada!", message = "Su contraseña ha sido restablecida exitosamente. Ahora puede iniciar sesión con su nueva contraseña." };
+            }
+            else
+            {
+                return new { success = false, title = "No se ha podido actualizar la contraseña", message = "No se ha podido actualizar la contraseña contáctese con administracion@gmail.com" };
+            }
         }
     }
 }

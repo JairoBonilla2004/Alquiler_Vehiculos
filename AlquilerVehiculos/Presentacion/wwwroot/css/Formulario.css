@@ -342,7 +342,10 @@ body {
 
 
 
-#content_iniciar_sesion.Active {
-    opacity: 1;
-    visibility: visible;
-}
+ #content_iniciar_sesion.Active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+/*Recuperación de clave*/
+

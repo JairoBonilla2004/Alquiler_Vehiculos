@@ -1,0 +1,106 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+    string token = ViewBag.Token as string;  
+
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restablecer Contraseña - RentCar Pro</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="~/css/FormularioCorreo.css" rel="stylesheet" />
+
+</head>
+<body id="formulario_restablecer_cuenta">
+    <div class="reset-container">
+        <div class="form-header">
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-car"></i>
+                </div>
+            </div>
+            <h2 class="form-title">Restablecer contraseña</h2>
+            <p class="form-subtitle">RentCar Pro - Sistema de Alquiler de Vehículos</p>
+        </div>
+        
+        <div class="form-body">
+            <p class="form-description">Por favor ingrese y confirme su nueva contraseña para restablecer su cuenta</p>
+            
+            <form id="resetForm">
+                <div class="mb-4">
+                    <label for="newPassword" class="form-label">Ingresar nueva contraseña</label>
+                    <div class="password-container">
+                        <input type="password" class="form-control" id="newPassword" name="password" required>
+                        <button type="button" class="password-toggle" id="toggleNewPassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="password-strength">
+                        <div class="password-strength-meter" id="strengthMeter"></div>
+                    </div>
+                    <div class="strength-text">
+                        <span class="strength-label" id="strengthText">Fuerza: No ingresada</span>
+                        <span id="strengthPercentage">0%</span>
+                    </div>
+                    
+                    <div class="password-requirements mt-2">
+                        <div class="requirement" id="req-length">
+                            <i class="fas fa-circle"></i> Mínimo 8 caracteres
+                        </div>
+                        <div class="requirement" id="req-uppercase">
+                            <i class="fas fa-circle"></i> Al menos una mayúscula
+                        </div>
+                        <div class="requirement" id="req-lowercase">
+                            <i class="fas fa-circle"></i> Al menos una minúscula
+                        </div>
+                        <div class="requirement" id="req-number">
+                            <i class="fas fa-circle"></i> Al menos un número
+                        </div>
+                        <div class="requirement" id="req-special">
+                            <i class="fas fa-circle"></i> Al menos un carácter especial
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="confirmPassword" class="form-label">Confirmar nueva contraseña</label>
+                    <div class="password-container">
+                        <input type="password" class="form-control" id="confirmPassword"  required>
+                        <button type="button" class="password-toggle" id="toggleConfirmPassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="invalid-feedback" id="passwordMatchFeedback">
+                        Las contraseñas no coinciden.
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100 mt-4" id="submitBtn" disabled>
+                    <i class="fas fa-lock me-2"></i>Cambiar contraseña
+                </button>
+                <input type="hidden" name="token" value="@token" />
+            </form>
+            
+            <div class="form-footer">
+                <p>¿Necesita ayuda? <a href="#">Contacte a soporte</a></p>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/modules/Empleados.js" type="module"></script>
+  
+      
+</body>
+</html>

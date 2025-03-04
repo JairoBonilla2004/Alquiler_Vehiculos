@@ -1,5 +1,6 @@
 ﻿import { ajax } from "../js/helpers/ajax.js"
 import { showSuccessMessage } from "../js/components/Alerts.js"
+import { FormularioRestablecerEnviar } from "../js/components/FormularioRestablecerEnviado.js"
 const d = document;
 
 
@@ -84,11 +85,11 @@ export function registrarse(event) {
             } else {
                 showSuccessMessage(response);
             }
-            
+
             console.log(response);
         },
         cbError: (response) => {
-            console.log("error en la petición "+response);
+            console.log("error en la petición " + response);
         }
     });
 
@@ -104,3 +105,191 @@ export function limpiarCamposFormulario($formulario_inicio, $formulario_resgistr
     $formulario_inicio.email.value = "";
     $formulario_inicio.loginPassword.value = "";
 }
+
+export function recuperacionClave(event, $form) {
+    if ($form.checkValidity()) {
+        const submitBtn = $form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+
+        // Change button to loading state
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Enviando...';
+        submitBtn.disabled = true;
+        const email = event.target.email.value;
+        console.log(email);
+        //hacer una peticion post al recurso para enviar el formulario
+        ajax({
+            endpoint: "/Acceso/PeticionRestablecer",
+            _method: "POST",
+            content_type: "application/json",
+            data: {
+                email
+            },
+            cbSuccess: (response) => {
+                console.log(response);
+              
+                const $formBody = document.querySelector('.form-body');
+                $formBody.innerHTML = FormularioRestablecerEnviar(response);
+            },
+            cbError: (response) => {
+                console.log("error en la petición " + response);
+            }
+        });
+
+    } else {
+        $form.classList.add('was-validated');
+    }
+}
+
+export function confirmarRestablecimientoClave(event) {
+    const submitBtn = document.getElementById("submitBtn");
+    const token = event.target.token.value;
+    const clave = event.target.password.value;
+    console.log(event.target.token);
+    if (!submitBtn.disabled) {
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Procesando...';
+        submitBtn.disabled = true;
+
+        ajax({
+            endpoint: "/Acceso/ActualizarClave",
+            _method: "POST",
+            content_type: "application/json",
+            data: {
+                token,
+                clave
+            },
+            cbSuccess: (response) => {
+                console.log(response);
+                const $formBody = document.querySelector('.form-body');
+                $formBody.innerHTML = FormularioRestablecerEnviar(response);
+            },
+            cbError: (response) => {
+                console.log("error en la petición " + response);
+            }
+        });
+
+    }
+}
+
+export function requerimientosFormulario() {
+    const newPassword = document.getElementById("newPassword");
+    const confirmPassword = document.getElementById("confirmPassword");
+    const strengthMeter = document.getElementById("strengthMeter");
+    const strengthText = document.getElementById("strengthText");
+    const strengthPercentage = document.getElementById("strengthPercentage");
+    const submitBtn = document.getElementById("submitBtn");
+    const passwordMatchFeedback = document.getElementById("passwordMatchFeedback");
+    const toggleNewPassword = document.getElementById("toggleNewPassword");
+    const toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
+
+    const requirements = {
+        length: document.getElementById("req-length"),
+        uppercase: document.getElementById("req-uppercase"),
+        lowercase: document.getElementById("req-lowercase"),
+        number: document.getElementById("req-number"),
+        special: document.getElementById("req-special")
+    };
+
+
+    toggleNewPassword.addEventListener("click", function () {
+        togglePasswordVisibility(newPassword, this);
+    });
+
+    toggleConfirmPassword.addEventListener("click", function () {
+        togglePasswordVisibility(confirmPassword, this);
+    });
+
+    function togglePasswordVisibility(input, button) {
+
+        input.type = input.type === "password" ? "text" : "password";
+        const icon = button.querySelector("i");
+        if (input.type === "password") {
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        } else {
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        }
+    }
+
+    newPassword.addEventListener("input", function () {
+        const password = newPassword.value;
+        let score = 0;
+
+        const checks = {
+            length: password.length >= 8,
+            uppercase: /[A-Z]/.test(password),
+            lowercase: /[a-z]/.test(password),
+            number: /[0-9]/.test(password),
+            special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+        };
+
+
+        for (const key in checks) {
+            const element = requirements[key];
+            const icon = element.querySelector("i");
+
+            if (checks[key]) {
+                element.classList.add("valid");
+                element.classList.remove("invalid");
+                icon.classList.remove("fa-circle");
+                icon.classList.add("fa-check-circle");
+                score++;
+            } else {
+                element.classList.remove("valid");
+                element.classList.add("invalid");
+                icon.classList.remove("fa-check-circle");
+                icon.classList.add("fa-circle");
+            }
+        }
+
+
+        const strengthLevels = ["Débil", "Regular", "Buena", "Fuerte", "Muy Fuerte"];
+        const scorePercentage = (score / 5) * 100;
+
+        strengthMeter.style.width = `${scorePercentage}%`;
+
+        if (scorePercentage <= 20) {
+            strengthMeter.style.backgroundColor = "#e74c3c"; // Rojo - Débil
+        } else if (scorePercentage <= 40) {
+            strengthMeter.style.backgroundColor = "#f39c12"; // Naranja - Regular
+        } else if (scorePercentage <= 60) {
+            strengthMeter.style.backgroundColor = "#f1c40f"; // Amarillo - Buena
+        } else if (scorePercentage <= 80) {
+            strengthMeter.style.backgroundColor = "#2ecc71"; // Verde claro - Fuerte
+        } else {
+            strengthMeter.style.backgroundColor = "#27ae60"; // Verde oscuro - Muy Fuerte
+        }
+
+        strengthText.textContent = `Fuerza: ${score > 0 ? strengthLevels[Math.min(score - 1, 4)] : "No ingresada"}`;
+        strengthPercentage.textContent = `${scorePercentage}%`;
+
+        validatePasswords();
+    });
+
+    confirmPassword.addEventListener("input", validatePasswords);
+
+    function validatePasswords() {
+        const password = newPassword.value;
+        const confirm = confirmPassword.value;
+
+        if (confirm === "") {
+            confirmPassword.classList.remove("is-invalid");
+            passwordMatchFeedback.style.display = "none";
+        } else if (password === confirm) {
+            confirmPassword.classList.remove("is-invalid");
+            confirmPassword.classList.add("is-valid");
+            passwordMatchFeedback.style.display = "none";
+        } else {
+            confirmPassword.classList.add("is-invalid");
+            confirmPassword.classList.remove("is-valid");
+            passwordMatchFeedback.style.display = "block";
+        }
+
+        const allRequirementsMet = Array.from(
+            document.querySelectorAll(".requirement")
+        ).every(req => req.classList.contains("valid"));
+
+        submitBtn.disabled = !(allRequirementsMet && password === confirm && password !== "");
+    }
+}
+
