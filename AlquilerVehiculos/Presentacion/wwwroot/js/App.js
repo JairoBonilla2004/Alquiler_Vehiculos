@@ -1,12 +1,108 @@
 ﻿import { ajax } from "../js/helpers/ajax.js"
+import { mostrarAlertaAjax } from "../js/helpers/mostrarAlertaAjax.js"
 import { showSuccessMessage } from "../js/components/Alerts.js"
 import { FormularioRestablecerEnviar } from "../js/components/FormularioRestablecerEnviado.js"
+import { IncialiazarDataTable, Table } from "./components/Table.js";
 const d = document;
 
 
 const MESSAGES = {
     EMAIL_REGISTERED: "El correo ya se encuentra registrado"
 };
+
+/*
+----  métodos para le vehiculo ----
+*/
+export function cargarTabla(props) {
+    const { _endpoint, classNameTable, headersTable, keys, habilitar_acciondes, selectorById } = props;
+    ajax(
+        {
+            endpoint: _endpoint,
+            _method: "GET",
+            content_type: "application/json",
+            data: "",
+            cbSuccess: (response) => {
+                console.log("dcd",response);
+                const $element = d.getElementById(selectorById);
+                $element.innerHTML = Table(classNameTable, headersTable, response, keys, habilitar_acciondes);
+                IncialiazarDataTable();
+            },
+            cbError: (response) => {
+                console.log("error en la petición " + response);
+            }
+        }
+    );
+}
+
+export function insertarDatosFetch(props) {
+    const { _endpoint, method, obj_data } = props;
+    console.log(obj_data);
+    ajax(
+        {
+            endpoint: _endpoint,
+            _method: method,
+            content_type: "application/json",
+            data: obj_data,
+            cbSuccess: (response) => {
+                location.reload();
+            },
+            cbError: (response) => {
+                console.log("error en la petición " + response);
+            }
+        }
+    );
+}
+
+export function actualizarFetch(props) {
+    const { _endpoint, obj_data } = props;
+
+    mostrarAlertaAjax(
+        "warning", 
+        "¿Estás seguro?",
+        "¿Deseas actualizar este registro?", 
+        "Actualizar",
+        "Cancelar",
+        () => {
+            ajax({
+                endpoint: _endpoint,
+                _method: "POST", 
+                content_type: "application/json",
+                data: obj_data,
+                cbSuccess: (response) => {
+                    location.reload(); 
+                },
+                cbError: (response) => {
+                    console.log("Error en la petición de actualización: " + response);
+                }
+            });
+        }
+    );
+}
+
+export function eliminarFetch(_endpoint, nombre) {
+  
+    mostrarAlertaAjax(
+        "warning",
+        `¿Estás seguro de que quieres eliminar el vehículo ${nombre}`,
+        "¡No podrás revertir esta acción!",
+        "Sí, eliminarlo",
+        "Cancelar",
+        () => {
+            ajax({
+                endpoint: _endpoint,
+                _method: "DELETE", 
+                content_type: "application/json",
+                data: "", 
+                cbSuccess: (response) => {
+                    location.reload(); 
+                },
+                cbError: (response) => {
+                    console.log("Error en la petición de eliminación: " + response);
+                }
+            });
+        }
+    );
+}
 
 
 
@@ -126,7 +222,7 @@ export function recuperacionClave(event, $form) {
             },
             cbSuccess: (response) => {
                 console.log(response);
-              
+
                 const $formBody = document.querySelector('.form-body');
                 $formBody.innerHTML = FormularioRestablecerEnviar(response);
             },

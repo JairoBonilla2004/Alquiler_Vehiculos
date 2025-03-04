@@ -11,7 +11,7 @@ d.addEventListener("DOMContentLoaded", e => {
     if (document.body.id === "formulario_restablecer_cuenta") {
         requerimientosFormulario();
     }
-   
+
 });
 
 d.addEventListener("submit", e => {

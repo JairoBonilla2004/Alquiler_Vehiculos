@@ -12,7 +12,7 @@ namespace Sistema.DAL
         T GetBy(string campo, string valor);
         List<T> GetAllByCharacters(string variable);
         void Insertar(T entidad);
-        void Actualizar(T entidad);
-        void Eliminar(int id);
+        bool Actualizar(T entidad);
+        bool Eliminar(int id);
     }
 }

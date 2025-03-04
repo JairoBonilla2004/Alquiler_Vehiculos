@@ -187,12 +187,12 @@ namespace AlquilerVehiculos_DAL
        
 
 
-        public void Actualizar(Empleado entidad)
+        public bool Actualizar(Empleado entidad)
         {
             throw new NotImplementedException();
         }
 
-        public void Eliminar(int id)
+        public bool Eliminar(int id)
         {
             throw new NotImplementedException();
         }

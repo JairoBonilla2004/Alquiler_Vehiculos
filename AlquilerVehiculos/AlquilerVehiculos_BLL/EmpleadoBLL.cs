@@ -51,7 +51,7 @@ namespace AlquilerVehiculos_BLL
             string contenido = File.ReadAllText(path);
             string dominio = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";//dominio actual
             string linkConfirmacion = $"{dominio}/{redirect}?token={_empleado.Token}";
-            contenido = contenido.Replace("{0}", _empleado.Nombre).Replace("{1}", linkConfirmacion);//ES ELLINK QUE YO CAMBIO QUE VA A TENER ESE HTML PARA TRAERME DEL CORREO A MI PÁWINA
+            contenido = contenido.Replace("{0}", _empleado.Nombre).Replace("{1}", linkConfirmacion);                                                          //ES ELLINK QUE YO CAMBIO QUE VA A TENER ESE HTML PARA TRAERME DEL CORREO A MI PÁWINA
             Correo correo = new Correo
             {
                 Para = _empleado.Email,

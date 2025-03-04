@@ -8,11 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<Conexion>();
-builder.Services.AddSingleton<Empleado>();
 builder.Services.AddSingleton<EmpleadoDAL>();
-
+builder.Services.AddSingleton<VehiculoDAL>();
 //servicios para los BLL
 builder.Services.AddSingleton<EmpleadoBLL>();
+builder.Services.AddSingleton<VehiculoBLL>();
 
 //servicio para obtener el dominio
 builder.Services.AddHttpContextAccessor();
