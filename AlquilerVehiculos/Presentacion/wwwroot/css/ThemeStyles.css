@@ -1,0 +1,40 @@
+﻿:root, [data-bs-theme="light"] {
+    --bs-body-bg: #f8f9fa;
+    --bs-body-color: #212529;
+    --bs-primary: #007bff;
+    --bs-navbar-bg: #ffffff;
+    --bs-card-bg: #ffffff;
+    --bs-border-color: #dee2e6;
+}
+
+
+[data-bs-theme="dark"] {
+    --bs-body-bg: #121212;
+    --bs-body-color: #f8f9fa;
+    --bs-primary: #212529;
+    --bs-navbar-bg: #1a1a1a;
+    --bs-card-bg: #1e1e1e;
+    --bs-border-color: #333;
+    --letra: black;
+}
+
+
+body {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+
+
+#footer-layout, .bg-light {
+    background-color: var(--bs-card-bg) !important;
+    border-color: var(--bs-border-color) !important;
+}
+
+.contenedor-tema {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    border-radius: 50%;
+}
+
+

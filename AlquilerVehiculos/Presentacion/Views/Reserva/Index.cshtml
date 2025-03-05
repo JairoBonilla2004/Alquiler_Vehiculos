@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "Gestión de Reservas";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-primary">Gestión de Reservas</h2>
+        <button type="button" class="btn btn-success" id="crear_reserva_nueva" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <i class="fas fa-plus"></i> Crear una nueva Reserva
+        </button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalReservaLabel">Registrar Nueva Reserva</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formulario-reserva">
+                        <div class="mb-3">
+                            <label for="id" class="form-label">ID de la Reserva</label>
+                            <input type="text" class="form-control" id="id" name="id" placeholder="ID generado automáticamente" disabled>
+                        </div>
+
+                        <!-- Input para ClienteId -->
+                        <div class="mb-3">
+                            <label for="clienteId" class="form-label">Cliente</label>
+                            <input type="text" class="form-control" id="clienteId" name="clienteId" readonly>
+                        </div>
+
+                        <!-- Input para VehiculoId -->
+                        <div class="mb-3">
+                            <label for="vehiculoId" class="form-label">Vehículo</label>
+                            <input type="text" class="form-control" id="vehiculoId" name="vehiculoId" readonly>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
+                            <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fechaFin" class="form-label">Fecha de Fin</label>
+                            <input type="date" class="form-control" id="fechaFin" name="fechaFin" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="estado" class="form-label">Estado</label>
+                            <select class="form-select" id="estado" name="estado">
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="Confirmada">Confirmada</option>
+                                <option value="Cancelada">Cancelada</option>
+                            </select>
+                        </div>
+
+                        <input type="hidden" id="" class="btn-hidden">
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar Reserva</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de reservas -->
+    <div id="contenedor-tabla-reserva"></div>
+</div>
+
+@section Scripts {
+    <script src="~/js/modules/Reserva.js" type="module"></script>
+}

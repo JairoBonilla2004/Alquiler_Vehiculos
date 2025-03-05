@@ -43,7 +43,7 @@ namespace AlquilerVehiculos_BLL
             {
                 return new { success = false, message = "No se han encontrado credenciales" };
             }
-            return new { success = true, redirectUrl = "Home/Index", empleado };
+            return new { success = true, redirectUrl = "Vehiculo/Index", empleado };
         }
 
         public bool enviarCorreo(string path, string redirect, Empleado _empleado, string _asunto)
@@ -157,6 +157,19 @@ namespace AlquilerVehiculos_BLL
             else
             {
                 return new { success = false, title = "No se ha podido actualizar la contraseña", message = "No se ha podido actualizar la contraseña contáctese con administracion@gmail.com" };
+            }
+        }
+
+        public object ObtenerEmpleadosFormulario()
+        {
+            var resultado = _empleadoDAL.GetAll();
+            if (resultado == null)
+            {
+                return new { success = false, message = "No se pudo extraer los empleados" };
+            }
+            else
+            {
+                return resultado;
             }
         }
     }

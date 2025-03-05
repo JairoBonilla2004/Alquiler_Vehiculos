@@ -14,11 +14,66 @@ namespace AlquilerVehiculos_DAL
 {
     public class EmpleadoDAL:IRepository<Empleado>
     {
+        
         private string  _conexion;
         public EmpleadoDAL(Conexion conexion)
         {
             _conexion = conexion.GetConeccion();
         }
+
+
+        public bool InsertarEmpleado()
+        {
+            return true;
+        }
+        public bool Actualizar(Empleado entidad)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Eliminar(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Empleado> GetAll()
+        {
+            List<Empleado> empleados = new List<Empleado>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(_conexion))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("sp_GetAllEmpleados", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                empleados.Add(new Empleado
+                                {
+                                    Nombre = reader["Nombre"].ToString(),
+                                    Apellido = reader["Apellido"].ToString(),
+                                    Cargo = reader["Cargo"].ToString(),
+                                    Telefono = reader["Telefono"].ToString(),
+                                    Email = reader["Email"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al obtener empleados: {ex.Message}");
+            }
+
+            return empleados;
+        }
+
         public void Insertar(Empleado entidad)
         {
             try
@@ -181,25 +236,6 @@ namespace AlquilerVehiculos_DAL
             {
                 throw new Exception("Error al restablecer la clave del empleado", ex);
             }
-        }
-
-
-       
-
-
-        public bool Actualizar(Empleado entidad)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Eliminar(int id)
-        {
-            throw new NotImplementedException();
-        }
-        
-        public List<Empleado> GetAll()
-        {
-            throw new NotImplementedException();
         }
 
         public List<Empleado> GetAllByCharacters(string variable)

@@ -10,10 +10,19 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<Conexion>();
 builder.Services.AddSingleton<EmpleadoDAL>();
 builder.Services.AddSingleton<VehiculoDAL>();
+builder.Services.AddSingleton<ClienteDAL>();
+builder.Services.AddSingleton<ReservaDAL>();
+builder.Services.AddSingleton<PagoDAL>();
+builder.Services.AddSingleton<SeguroDAL>();
+
+
 //servicios para los BLL
 builder.Services.AddSingleton<EmpleadoBLL>();
+builder.Services.AddSingleton<ClienteBLL>();
 builder.Services.AddSingleton<VehiculoBLL>();
-
+builder.Services.AddSingleton<ReservaBLL>();
+builder.Services.AddSingleton<PagoBLL>();
+builder.Services.AddSingleton<SeguroBLL>();
 //servicio para obtener el dominio
 builder.Services.AddHttpContextAccessor();
 

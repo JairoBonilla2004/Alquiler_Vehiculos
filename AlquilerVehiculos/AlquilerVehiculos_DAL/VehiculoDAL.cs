@@ -140,7 +140,7 @@ namespace AlquilerVehiculos_DAL
 
         public void Insertar(Vehiculo entidad)
         {
-       
+
             try
             {
                 using (SqlConnection con = new SqlConnection(_conexion))
@@ -156,7 +156,7 @@ namespace AlquilerVehiculos_DAL
                         cmd.Parameters.AddWithValue("@Estado", "Disponible");
                         con.Open();
                         cmd.ExecuteNonQuery();
-                        
+
                     }
                 }
             }
@@ -168,7 +168,7 @@ namespace AlquilerVehiculos_DAL
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }
-          
+
         }
     }
 }

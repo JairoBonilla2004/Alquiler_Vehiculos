@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Gestión de Seguros";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-primary">Gestión de Seguros</h2>
+        <button type="button" class="btn btn-success" id="crear_seguro_nuevo" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <i class="fas fa-plus"></i> Registrar Seguro
+        </button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalSeguroLabel">Registrar Nuevo Seguro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formulario-seguro">
+                        <div class="mb-3">
+                            <label for="id" class="form-label">ID del Seguro</label>
+                            <input type="text" class="form-control" id="id" name="id" placeholder="ID generado automáticamente" disabled>
+                        </div>
+
+                        <!-- Select para ReservaId -->
+                        <div class="mb-3">
+                            <label for="reservaId" class="form-label">Reserva</label>
+                            <select class="form-select" id="reservaId" name="reservaId" required>
+                                <option value="">Seleccione una Reserva</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="tipoSeguro" class="form-label">Tipo de Seguro</label>
+                            <select class="form-select" id="tipoSeguro" name="tipoSeguro" required>
+                                <option value="Básico">Básico</option>
+                                <option value="Cobertura Total">Cobertura Total</option>
+                                <option value="Daños a Terceros">Daños a Terceros</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="costo" class="form-label">Costo del Seguro</label>
+                            <input type="number" class="form-control" id="costo" name="costo" placeholder="Ingrese el costo" required min="0.01" step="0.01">
+                        </div>
+
+                        <input type="hidden" id="" class="btn-hidden">
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar Seguro</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de seguros -->
+    <div id="contenedor-tabla-seguro"></div>
+</div>
+
+@section Scripts {
+    <script src="~/js/modules/Seguros.js" type="module"></script>
+}

@@ -3,6 +3,7 @@ import { mostrarAlertaAjax } from "../js/helpers/mostrarAlertaAjax.js"
 import { showSuccessMessage } from "../js/components/Alerts.js"
 import { FormularioRestablecerEnviar } from "../js/components/FormularioRestablecerEnviado.js"
 import { IncialiazarDataTable, Table } from "./components/Table.js";
+import { OptionsElements } from "./components/OptionsElements.js"
 const d = document;
 
 
@@ -11,8 +12,28 @@ const MESSAGES = {
 };
 
 /*
-----  métodos para le vehiculo ----
+----  PETICIONES GENÉRICAS ----
+
 */
+export function cargarSelect(props) {
+    const { _endpoint, selectorById,key} = props;// la key me va a servir tanto para el value de los option como para el contenido
+
+    ajax({
+        endpoint: _endpoint,
+        _method: "GET",
+        content_type: "application/json",
+        data: "",
+        cbSuccess: (response) => {
+            const $select_vehiculo = d.getElementById(selectorById);
+            $select_vehiculo.innerHTML = OptionsElements(response, key);
+        },
+        cbError: (response) => {
+            console.error(`Error en la petición al cargar ${selectorById}: `, response);
+        }
+    });
+}
+
+
 export function cargarTabla(props) {
     const { _endpoint, classNameTable, headersTable, keys, habilitar_acciondes, selectorById } = props;
     ajax(
@@ -25,6 +46,7 @@ export function cargarTabla(props) {
                 console.log("dcd",response);
                 const $element = d.getElementById(selectorById);
                 $element.innerHTML = Table(classNameTable, headersTable, response, keys, habilitar_acciondes);
+   
                 IncialiazarDataTable();
             },
             cbError: (response) => {
@@ -44,7 +66,16 @@ export function insertarDatosFetch(props) {
             content_type: "application/json",
             data: obj_data,
             cbSuccess: (response) => {
-                location.reload();
+                if (response.success) {
+                    console.log(response.success);
+                    location.reload();
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: response.message || "Ocurrió un error al insertar",  // Si no hay message, usa el texto por defecto
+                    });
+                }
             },
             cbError: (response) => {
                 console.log("error en la petición " + response);

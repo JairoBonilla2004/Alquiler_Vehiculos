@@ -11,7 +11,8 @@ namespace AlquilerVehiculos_BLL
     public class VehiculoBLL
     {
         public VehiculoDAL _vehiculoDAL;
-        public VehiculoBLL(VehiculoDAL vehiculoDAL) { 
+        public VehiculoBLL(VehiculoDAL vehiculoDAL)
+        {
             _vehiculoDAL = vehiculoDAL;
         }
 
@@ -22,9 +23,9 @@ namespace AlquilerVehiculos_BLL
 
         public object InsertarVehiculos(Vehiculo vehiculo)
         {
-           _vehiculoDAL.Insertar(vehiculo);
-            return new {success= true,  vehiculo };
-            
+            _vehiculoDAL.Insertar(vehiculo);
+            return new { success = true, vehiculo };
+
         }
 
         public object EliminarVehiculo(int id)
@@ -35,7 +36,7 @@ namespace AlquilerVehiculos_BLL
 
         public object ActualizarVehiculo(Vehiculo vehiculo)
         {
-            bool respuesta =_vehiculoDAL.Actualizar(vehiculo);
+            bool respuesta = _vehiculoDAL.Actualizar(vehiculo);
             if (respuesta)
             {
                 return new { success = true };
@@ -44,7 +45,7 @@ namespace AlquilerVehiculos_BLL
             {
                 return new { success = false };
             }
-            
+
         }
     }
 }

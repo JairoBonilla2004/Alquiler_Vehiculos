@@ -1,0 +1,61 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<div class="container mt-4">
+	<div class="d-flex justify-content-between align-items-center mb-3">
+		<h2 class="text-primary">Gestión de Clientes</h2>
+		<button type="button" class="btn btn-success" id="crear_cliente_nuevo" data-bs-toggle="modal" data-bs-target="#exampleModal">
+			<i class="fas fa-plus"></i> Crear un nuevo Cliente
+		</button>
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-primary text-white">
+					<h5 class="modal-title" id="modalClienteLabel">Registrar Nuevo Cliente</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form id="formulario-cliente">
+						<div class="mb-3">
+							<label for="id" class="form-label">ID del Cliente</label>
+							<input type="text" class="form-control" id="id" name="id" placeholder="ID automático" disabled>
+						</div>
+						<div class="mb-3">
+							<label for="nombre" class="form-label">Nombre</label>
+							<input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ejemplo: Juan" required>
+						</div>
+						<div class="mb-3">
+							<label for="apellido" class="form-label">Apellido</label>
+							<input type="text" class="form-control" id="apellido" name="apellido" placeholder="Ejemplo: Pérez" required>
+						</div>
+						<div class="mb-3">
+							<label for="telefono" class="form-label">Teléfono</label>
+							<input type="tel" class="form-control" id="telefono" name="telefono" placeholder="Ejemplo: 1234567890" required>
+						</div>
+						<div class="mb-3">
+							<label for="email" class="form-label">Correo Electrónico</label>
+							<input type="email" class="form-control" id="email" name="email" placeholder="Ejemplo: usuario@email.com" required>
+						</div>
+						<input type="hidden" id="" class="btn-hidden" />
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+							<button type="submit" class="btn btn-primary">Guardar Cliente</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Tabla de clientes -->
+	<div id="contenedor-tabla-cliente"></div>
+</div>
+
+@section Scripts {
+	<script src="~/js/modules/Clientes.js" type="module"></script>
+}
