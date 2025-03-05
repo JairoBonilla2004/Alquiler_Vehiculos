@@ -3,7 +3,11 @@
 Nombre del Proyecto
 Sistema de Alquiler de Vehículos – Aplicación Web con ASP.NET Core MVC
 Descripción del Proyecto
-Este sistema permite gestionar el alquiler de vehículos de manera eficiente a través de una plataforma web. Incluye administración de clientes, reservas, pagos y empleados, con una arquitectura escalable basada en ASP.NET Core MVC y SQL Server.
+Este sistema permite gestionar el alquiler de vehículos de manera eficiente a través de una plataforma web.
+
+
+ Incluye administración de clientes, reservas, pagos y empleados, con una arquitectura escalable basada en ASP.NET Core MVC y SQL Server.
+
 Tecnologías Utilizadas: 
 -Backend: ASP.NET Core MVC con C#.
 -Frontend: HTML, CSS (Bootstrap o Materialize CSS) y JavaScript.
@@ -18,6 +22,8 @@ Funcionalidades Principales
 -Historial de alquileres y reportes
 -Modo claro/oscuro para mejor experiencia de usuario
 -Despliegue en la nube con base de datos remota.
+
+
 Estructura del Proyecto
 La aplicación está organizada en varias capas para una mejor organización y mantenimiento:
 -Capa de Entidad: Define las clases que representan los datos de la aplicación.
